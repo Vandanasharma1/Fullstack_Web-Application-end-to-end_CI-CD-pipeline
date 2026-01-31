@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/Fusionpact-Org/assets/main/fusionpact-hero.gif" alt="Fusionpact Hero Banner" width="350"/>
 </p>
 
-<h1 align="center">🌟 Fusionpact DevOps Gauntlet: Assessment 2026</h1>
+<h1 align="center">🌟Fullstack Web Application end to end CI/CD pipeline </h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Cloud--Ready-brightgreen?style=for-the-badge&logo=googles-cloud&logoColor=white" title="Project Status"/>
@@ -16,7 +16,7 @@
 <h2 align="center">🎯 MISSION BRIEFING: The Challenge</h2>
 
 <p align="center">
-Welcome to the <b>Fusionpact DevOps Gauntlet</b>! This is your final opportunity to prove your mastery of modern cloud engineering.<br/>
+Welcome to the <b>Fullstack Web Application end to end CI/CD pipeline</b>! This is your final opportunity to prove your mastery of modern cloud engineering.<br/>
 Your task is to take this two-tier application stack and transform it into a <b>fault-tolerant, observable, and automated production system</b> in the cloud.
 </p>
 
@@ -38,7 +38,7 @@ Your task is to take this two-tier application stack and transform it into a <b>
 <h2 align="center">🧪 Challenge Structure</h2>
 
 <p align="center">
-The assignment is divided into <b>3 levels</b>. Complete all tasks in each level to qualify.
+The project is divided into <b>3 levels</b>. Complete all tasks in each level to qualify.
 </p>
 
 ---
@@ -95,21 +95,10 @@ The assignment is divided into <b>3 levels</b>. Complete all tasks in each level
 
 ---
 
-<h3 align="center">📑 Submission Requirements (10%)</h3>
-
-**Instructions:**
-- Fork this repository and push your complete solution.
-- Provide a **SOP (Standard Operating Procedure)** — **do NOT** push the SOP to GitHub.  
-- Submit the SOP **via email**.
-
-**Submission Checklist:**
-- ✅ GitHub repository URL  
-- ✅ SOP PDF (attached in email)  
-- ✅ Submit the Google Form once the tasks are complete
 
 ---
 
-<h3 align="center">📊 Evaluation Criteria</h3>
+<h3 align="center">📊 Criteria</h3>
 
 <p align="center">
 
@@ -122,9 +111,6 @@ The assignment is divided into <b>3 levels</b>. Complete all tasks in each level
 
 </p>
 
-<p align="center">
-  ⚠️ <b>FINAL CHECK:</b> Submissions will be rejected if the deployment is not in the cloud or if the SOP is missing.
-</p>
 
 ---
 
