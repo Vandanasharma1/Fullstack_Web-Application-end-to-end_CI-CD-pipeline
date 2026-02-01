@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "vandanasharma1/Fullstack:latest"
+        DOCKER_IMAGE = "vandanasharma1/fullstack:latest"
         EC2_HOST = "13.201.49.87"
         EC2_USER = "ubuntu" // or "ec2-user" for Amazon Linux
     }
@@ -53,9 +53,9 @@ pipeline {
                     sh """
                     ssh -i $SSH_KEY -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} "\
                         sudo docker pull ${DOCKER_IMAGE} && \
-                        sudo docker stop Fullstack_app || true && \
-                        sudo docker rm Fullstack_app || true && \
-                        sudo docker run -d --name Fullstack_app -p 80:80 ${DOCKER_IMAGE} \
+                        sudo docker stop fullstack_app || true && \
+                        sudo docker rm fullstack_app || true && \
+                        sudo docker run -d --name fullstack_app -p 80:80 ${DOCKER_IMAGE} \
                     "
                     """
                 }
