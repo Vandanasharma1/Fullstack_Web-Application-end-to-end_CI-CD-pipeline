@@ -3,26 +3,33 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "vandanasharma1/fullstack:latest"
-        EC2_HOST = "13.201.49.87"
-        EC2_USER = "ubuntu" // or "ec2-user" for Amazon Linux
     }
 
     stages {
+
         stage('Checkout Code') {
             steps {
-                echo 'Checking out code from GitHub...'
-                git branch: 'main', url: 'https://github.com/Vandanasharma1/Fullstack_Web-Application-end-to-end_CI-CD-pipeline.git'
+                echo 'Checking out source code...'
+                git branch: 'main',
+                    url: 'https://github.com/Vandanasharma1/Fullstack_Web-Application-end-to-end_CI-CD-pipeline.git'
             }
         }
 
         stage('Build & Test') {
             steps {
-                echo 'Installing dependencies and running tests...'
+                echo 'Setting up Python environment and running tests...'
                 sh '''
                 python3 -m venv venv
                 . venv/bin/activate
+                pip install --upgrade pip
                 pip install -r backend/requirements.txt
-                pytest || echo "No tests found, skipping..."
+
+                # Run tests only if pytest exists
+                if command -v pytest > /dev/null; then
+                    pytest
+                else
+                    echo "pytest not installed. Skipping tests."
+                fi
                 '''
             }
         }
@@ -30,14 +37,20 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                sh 'docker build -t ${DOCKER_IMAGE} .'
+                sh '''
+                docker build -t ${DOCKER_IMAGE} .
+                '''
             }
         }
 
         stage('Push Docker Image to Docker Hub') {
             steps {
-                echo 'Pushing Docker image to Docker Hub...'
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                echo 'Logging into Docker Hub and pushing image...'
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-credentials',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
                     sh '''
                     echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                     docker push ${DOCKER_IMAGE}
@@ -46,29 +59,25 @@ pipeline {
             }
         }
 
-        stage('Deploy to EC2 Instance') {
+        stage('Deploy with Docker Compose') {
             steps {
-                echo 'Deploying Docker container to EC2...'
-                withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'SSH_KEY')]) {
-                    sh """
-                    ssh -i $SSH_KEY -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} "\
-                        sudo docker pull ${DOCKER_IMAGE} && \
-                        sudo docker stop fullstack_app || true && \
-                        sudo docker rm fullstack_app || true && \
-                        sudo docker run -d --name fullstack_app -p 80:80 ${DOCKER_IMAGE} \
-                    "
-                    """
-                }
+                echo 'Deploying application using Docker Compose...'
+                sh '''
+                docker compose down || true
+                docker compose pull
+                docker compose up -d --build
+                docker system prune -f
+                '''
             }
         }
     }
 
     post {
         success {
-            echo "Deployment successful! Your app is live at http://${EC2_HOST}"
+            echo "Deployment successful! Application is running."
         }
         failure {
-            echo 'Deployment failed. Check the Jenkins logs.'
+            echo "Pipeline failed. Check logs carefully."
         }
     }
 }
