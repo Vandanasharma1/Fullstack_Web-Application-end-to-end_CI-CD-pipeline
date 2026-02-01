@@ -59,17 +59,17 @@ pipeline {
             }
         }
 
-        stage('Deploy with Docker Compose') {
-            steps {
-                echo 'Deploying application using Docker Compose...'
-                sh '''
-                docker compose down || true
-                docker compose pull
-                docker compose up -d --build
-                docker system prune -f
-                '''
-            }
-        }
+       stage('Deploy with Docker Compose') {
+    steps {
+        echo 'Deploying application using Docker Compose...'
+        sh '''
+        docker-compose down || true
+        docker-compose pull
+        docker-compose up -d --build
+        docker system prune -f
+        '''
+    }
+}
     }
 
     post {
